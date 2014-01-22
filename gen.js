@@ -1,35 +1,33 @@
+module.exports = function() {
 
-function stringifyVar(v) {
-    return eval(v);
-}
+    var g = {
+	stringifyVar: function(v) {
+	    return eval(v);
+	},
 
-function stringifyFn(fn) {
-    return fn.toString();
-}
+	stringifyFn: function(fn) {
+	    return fn.toString();
+	},
 
-function stringify(/*args*/) {
-    var args;
-    var fn;
-    var params;
-    var res;
+	stringify: function(/*args*/) {
+	    var args;
+	    var fn;
+	    var params;
+	    var res;
+	    
+	    args = Array.prototype.slice.call(arguments, '');
+	    fn = args.shift();
+	    
+	    res = '(' + g.stringifyFn(fn) + ')';
 
-    args = Array.prototype.slice.call(arguments, '');
-    fn = args.shift();
+	    params = args.map(g.stringifyVar);
+	    res += '.call(null, ' + params.join(', ') + ');';
+	    
+	    return res;
+	}
 
-    res = '(' + stringifyFn(fn) + ')';
+    }
 
-    params = args.map(stringifyVar);
-    res += '.call(null, ' + params.join(', ') + ');';
-    
-    return res;
-}
+    return g;
 
-function test_fn(arg1, arg2) {
-    return arg1 + arg2;
-}
-
-var cache = stringify(test_fn, 2, 4);
-
-console.log(cache);
-console.log('--- calling ---');
-console.log(eval(cache));
+};
