@@ -1,5 +1,5 @@
 
-var gen = require('../gen')();
+var gen = require('../gen');
 
 /* local variables */
 var number1 = 2;

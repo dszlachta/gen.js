@@ -1,5 +1,5 @@
 
-var gen = require('../gen')();
+var gen = require('../gen');
 
 function higher1(citizenship) {
     return function(name) {
